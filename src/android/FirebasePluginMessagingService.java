@@ -16,6 +16,7 @@ import android.app.Notification;
 import android.text.TextUtils;
 import android.content.ContentResolver;
 import android.graphics.Color;
+import android.content.pm.PackageManager;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -101,6 +102,13 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             boolean foregroundNotification = false;
 
             Map<String, String> data = remoteMessage.getData();
+
+            if (remoteMessage.getData().get("openApp").equals("true") && FirebasePlugin.inBackground()) {
+                PackageManager pm = getApplicationContext().getPackageManager();
+                Intent launchIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(launchIntent);
+            }
 
             if (remoteMessage.getNotification() != null) {
                 // Notification message payload
