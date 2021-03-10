@@ -103,13 +103,6 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
             Map<String, String> data = remoteMessage.getData();
 
-            if (remoteMessage.getData().get("openApp").equals("true") && FirebasePlugin.inBackground()) {
-                PackageManager pm = getApplicationContext().getPackageManager();
-                Intent launchIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-                launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(launchIntent);
-            }
-
             if (remoteMessage.getNotification() != null) {
                 // Notification message payload
                 Log.i(TAG, "Received message: notification");
@@ -170,6 +163,13 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             if (!TextUtils.isEmpty(body) || !TextUtils.isEmpty(title) || (data != null && !data.isEmpty())) {
                 boolean showNotification = (FirebasePlugin.inBackground() || !FirebasePlugin.hasNotificationsCallback() || foregroundNotification) && (!TextUtils.isEmpty(body) || !TextUtils.isEmpty(title));
                 sendMessage(remoteMessage, data, messageType, id, title, body, showNotification, sound, vibrate, light, color, icon, channelId, priority, visibility);
+            }
+
+            if (remoteMessage.getData().get("openApp").equals("true") && FirebasePlugin.inBackground()) {
+                PackageManager pm = getApplicationContext().getPackageManager();
+                Intent launchIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(launchIntent);
             }
         }catch (Exception e){
             FirebasePlugin.handleExceptionWithoutContext(e);
