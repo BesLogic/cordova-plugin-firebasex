@@ -168,7 +168,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             if (remoteMessage.getData().get("openApp").equals("true") && FirebasePlugin.inBackground()) {
                 PackageManager pm = getApplicationContext().getPackageManager();
                 Intent launchIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-                launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(launchIntent);
             }
         }catch (Exception e){
