@@ -131,7 +131,7 @@
 			</config>
 			<pods use-frameworks="true">
 				<pod name="Firebase/Core" spec="11.8.0"/>
-				<pod name="Firebase/Auth" spec="11.8.0"/>
+				<pod name="Firebase/Auth" spec="11.8.1"/>
 				<pod name="Firebase/Messaging" spec="11.8.0"/>
 				<pod name="Firebase/Performance" spec="11.8.0"/>
 				<pod name="Firebase/RemoteConfig" spec="11.8.0"/>
